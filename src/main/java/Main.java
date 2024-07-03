@@ -1,3 +1,6 @@
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -9,25 +12,62 @@ public class Main {
         while (true) {
             System.out.print("$ ");
             String input = scanner.nextLine();
+            String[] inputs = input.split(" ");
+            String command = inputs[0];
+            String parameter = "";
 
-            if (input.equals("exit 0")) {
-                break;
-            } else if (input.startsWith("echo ")) {
-                int n = input.length();
-                System.out.println(input.substring(5, n));
-            } else if (input.startsWith("type")) {
-                String typeSubstring = input.substring(5);
-                if (Arrays.asList(commands).contains(typeSubstring)) {
-                    System.out.println(typeSubstring + " is a shell builtin");
-                } else {
-                    System.out.println(typeSubstring + " not found");
+            if (inputs.length > 2) {
+                for (int i = 1; i < inputs.length; i++) {
+                    if (i < inputs.length - 1)
+                        parameter += inputs[i] + " ";
+                    else
+                        parameter += inputs[i];
                 }
-            } else {
-                System.out.println(input + ": command not found");
+            } else if (inputs.length > 1) {
+                parameter = inputs[1];
             }
+
+            switch (command) {
+                case "exit":
+                    if (parameter.equals("0"))
+                        System.exit(0);
+                    else
+                        System.out.println(command + ": not found");
+                    break;
+
+                case "echo":
+                    System.out.println(parameter);
+                    break;
+
+                case "type":
+                    if (Arrays.asList(commands).contains(parameter)) {
+                        System.out.println(parameter + " is a shell builtin");
+                    } else {
+                        String filePath = getFilePath(parameter);
+                        if (filePath != null)
+                            System.out.println(parameter + " is " + filePath);
+                        else
+                            System.out.println(parameter + ": not found");
+                    }
+                    break;
+
+                default:
+                    System.out.println(input + ": command not found");
+                    break;
+
+            }
+        }
+    }
+
+    private static String getFilePath(String parameter) {
+        for (String path : System.getenv("PATH").split(File.pathSeparator)) {
+            Path fullPath = Path.of(path, parameter);
+
+            if (Files.isRegularFile(fullPath))
+                return fullPath.toString();
 
         }
 
-        scanner.close();
+        return null;
     }
 }
