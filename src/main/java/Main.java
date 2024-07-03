@@ -1,25 +1,23 @@
-// Uncomment this block to pass the first stage
-// import java.util.Scanner;
-
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        System.out.print("$ ");
-
         Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine();
 
-        do {
-            System.out.println(input + ": command not found");
+        while (true) {
             System.out.print("$ ");
+            String input = scanner.nextLine();
 
-            input = scanner.nextLine();
+            if (input.equals("exit 0")) {
+                break;
+            } else if (input.startsWith("echo ")) {
+                int n = input.length();
+                System.out.println(input.substring(5, n));
+            } else {
+                System.out.println(input + ": command not found");
+            }
 
-            if (input.equals("exit 0"))
-                System.exit(0);
-
-        } while (!input.isEmpty());
+        }
 
         scanner.close();
     }
