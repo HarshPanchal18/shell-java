@@ -52,7 +52,19 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println(input + ": command not found");
+                    if (!parameter.isEmpty()) {
+                        String path = getFilePath(command);
+                        if (path != null) {
+                            String[] fullPath = new String[]{command, parameter};
+                            Process ps = Runtime.getRuntime().exec(fullPath);
+                            ps.getInputStream().transferTo(System.out);
+                        } else {
+                            System.out.println(command + ": command not found");
+                        }
+                    } else {
+                        System.out.println(input + ": command not found");
+                    }
+
                     break;
 
             }
