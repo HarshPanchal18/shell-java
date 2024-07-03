@@ -12,7 +12,7 @@ public class Main {
 
         do {
             System.out.println(input + ": command not found");
-            System.out.println("$ ");
+            System.out.print("$ ");
 
             input = scanner.nextLine();
         } while (!input.isEmpty());
