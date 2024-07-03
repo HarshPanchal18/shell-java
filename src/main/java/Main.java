@@ -8,9 +8,15 @@ public class Main {
         System.out.print("$ ");
 
         Scanner scanner = new Scanner(System.in);
-        while (true) {
-            String input = scanner.nextLine();
+        String input = scanner.nextLine();
+
+        do {
             System.out.println(input + ": command not found");
-        }
+            System.out.println("$ ");
+
+            input = scanner.nextLine();
+        } while (!input.isEmpty());
+
+        scanner.close();
     }
 }
