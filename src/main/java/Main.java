@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
         String[] commands = {"echo", "exit", "type", "pwd", "cd"};
-        String dir = Path.of("").toAbsolutePath().toString();
+        String cwd = Path.of("").toAbsolutePath().toString();
 
         while (true) {
             System.out.print("$ ");
@@ -54,12 +54,17 @@ public class Main {
                     break;
 
                 case "pwd":
-                    System.out.println(dir);
+                    System.out.println(cwd);
                     break;
 
                 case "cd":
-                    if (Files.isDirectory(Path.of(parameter)))
-                        dir = parameter;
+                    if (!parameter.startsWith("/"))
+                        parameter = cwd + "/" + parameter;
+
+                    Path parameterPath = Path.of(parameter);
+
+                    if (Files.isDirectory(parameterPath))
+                        cwd = parameterPath.normalize().toString();
                     else
                         System.out.println("cd: " + parameter + ": No such file or directory");
 
