@@ -58,6 +58,12 @@ public class Main {
                     break;
 
                 case "cd":
+
+                    if (parameter.equals("~")) {
+                        cwd = System.getenv("HOME");
+                        continue;
+                    }
+
                     if (!parameter.startsWith("/"))
                         parameter = cwd + "/" + parameter;
 
