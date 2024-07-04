@@ -61,7 +61,7 @@ public class Main {
                     if (Files.isDirectory(Path.of(parameter)))
                         dir = parameter;
                     else
-                        System.out.println("cd: " + parameter + " No such file or directory");
+                        System.out.println("cd: " + parameter + ": No such file or directory");
 
                     break;
 
