@@ -11,6 +11,7 @@ public class Main {
 
         while (true) {
             System.out.print("$ ");
+
             String input = scanner.nextLine();
             String[] inputs = input.split(" ");
             String command = inputs[0];
@@ -49,6 +50,10 @@ public class Main {
                         else
                             System.out.println(parameter + ": not found");
                     }
+                    break;
+
+                case "pwd":
+                    System.out.println(System.getProperty("user.dir"));
                     break;
 
                 default:
